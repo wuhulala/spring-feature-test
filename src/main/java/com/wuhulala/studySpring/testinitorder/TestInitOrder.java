@@ -19,11 +19,14 @@ import javax.annotation.PreDestroy;
  */
 public class TestInitOrder implements InitializingBean, DisposableBean,BeanNameAware,ApplicationContextAware {
 
+    private String name;
+
     public TestInitOrder() {
         System.out.println("-------------------constructor-------------------");
     }
 
     public void initMethod() {
+        this.name = "asdasdasd";
         System.out.println("-------------------init Method-------------------");
     }
 
@@ -60,12 +63,13 @@ public class TestInitOrder implements InitializingBean, DisposableBean,BeanNameA
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         AutowireCapableBeanFactory factory = applicationContext.getAutowireCapableBeanFactory();
-        System.out.println(factory.getBean(TestInitOrder.class));
+        TestInitOrder test = factory.getBean(TestInitOrder.class);
+        System.out.println(test.name);
     }
 //    ----- PriorityOrdered 的 beanPostPostProcessor--------------------
 //    ----- Ordered 的 beanPostPostProcessor--------------------
 //    -------------------constructor------------------
-//  -----------------Aware 接口---------------------
+//  -----------------Aware 接口[因为执行这些注入的都是beanpostprocessor]---------------------
 //    -------------------PostConstruct -------------------
 //    -------------------init -------------------
 //    -------------------init Method-------------------
