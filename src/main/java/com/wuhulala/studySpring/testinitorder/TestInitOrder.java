@@ -1,7 +1,12 @@
 package com.wuhulala.studySpring.testinitorder;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -12,7 +17,7 @@ import javax.annotation.PreDestroy;
  * @date 2017/5/6
  * @link https://github.com/wuhulala
  */
-public class TestInitOrder implements InitializingBean, DisposableBean {
+public class TestInitOrder implements InitializingBean, DisposableBean,BeanNameAware,ApplicationContextAware {
 
     public TestInitOrder() {
         System.out.println("-------------------constructor-------------------");
@@ -46,8 +51,21 @@ public class TestInitOrder implements InitializingBean, DisposableBean {
     public void preDestroy()  {
         System.out.println("-------------------PreDestroy -------------------");
     }
-//
-//    -------------------constructor-------------------
+
+    @Override
+    public void setBeanName(String s) {
+        System.out.println("bean name is .." + s);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        AutowireCapableBeanFactory factory = applicationContext.getAutowireCapableBeanFactory();
+        System.out.println(factory.getBean(TestInitOrder.class));
+    }
+//    ----- PriorityOrdered 的 beanPostPostProcessor--------------------
+//    ----- Ordered 的 beanPostPostProcessor--------------------
+//    -------------------constructor------------------
+//  -----------------Aware 接口---------------------
 //    -------------------PostConstruct -------------------
 //    -------------------init -------------------
 //    -------------------init Method-------------------
