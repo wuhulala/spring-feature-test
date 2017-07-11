@@ -94,8 +94,8 @@ public void refresh() throws BeansException, IllegalStateException {
 ```java
 //registerBeanPostProcessors()方法 注册实现BeanPostProcessor接口的Bean
 MyBeanPostProcessor
-//1.  postProcessBeforeInitialization(Object bean, String beanName)方法将在调用bean的初始化方法之前被调用。方法参数分别表示当前的bean对象和对应的bean名称。
-//2.  postProcessAfterInitialization(Object bean, String beanName)方法将在调用bean的初始化方法之后被调用。
+beantest
+beantest
     public static void registerBeanPostProcessors(
             ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext) {
         //获取实现BeanPostProcessor接口的Bean

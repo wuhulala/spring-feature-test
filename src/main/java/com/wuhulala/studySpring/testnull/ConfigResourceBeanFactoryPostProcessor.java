@@ -45,7 +45,7 @@ public class ConfigResourceBeanFactoryPostProcessor implements BeanFactoryPostPr
         for (String name : beanNames) {
             Worker worker = (Worker) beanFactory.getBean(name);
             Field[] fields = workerClazz.getDeclaredFields();
-            System.out.println("bean[" + name + "]");
+            System.out.println("beantest[" + name + "]");
             for (Field field : fields) {
                 //System.out.printf("---field[" + field.getName() + "]:");
                 if (field.isAnnotationPresent(TestConfig.class)) {

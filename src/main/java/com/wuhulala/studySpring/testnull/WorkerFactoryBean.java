@@ -13,7 +13,7 @@ public class WorkerFactoryBean implements FactoryBean<Worker> {
 
 
     public void printName() {
-        System.out.println("my name is factory bean !!!");
+        System.out.println("my name is factory beantest !!!");
     }
 
     @Override

@@ -46,4 +46,9 @@ public class TestInitOrder implements InitializingBean, DisposableBean {
     public void preDestroy()  {
         System.out.println("-------------------PreDestroy -------------------");
     }
+//
+//    -------------------constructor-------------------
+//    -------------------PostConstruct -------------------
+//    -------------------init -------------------
+//    -------------------init Method-------------------
 }

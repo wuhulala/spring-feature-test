@@ -6,20 +6,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
        <context:component-scan base-package="com.wuhulala.studySpring.testnull"/>
        <context:property-placeholder location="classpath:config.properties" />
-       <!--<bean class="com.wuhulala.studySpring.testnull.Factory">
+       <!--<beantest class="com.wuhulala.studySpring.testnull.Factory">
 
-       </bean>-->
-       <!--<bean name="B" class="com.wuhulala.studySpring.circledepend.B">
+       </beantest>-->
+       <!--<beantest name="B" class="com.wuhulala.studySpring.circledepend.B">
               <property name="a" ref="A"/>
-       </bean>-->
+       </beantest>-->
       <!--
        <aop:aspectj-autoproxy expose-proxy="true"/>
        <tx:annotation-driven transaction-manager="txManager"/>
-       <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+       <beantest id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
               <property name="dataSource" ref="dataSource"/>
-       </bean>
+       </beantest>
 
-       <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+       <beantest id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
               <property name="url" value="${jdbc_url}" />
               <property name="username" value="${jdbc_user}" />
               <property name="password" value="${jdbc_password}" />
@@ -40,5 +40,5 @@
 
               <property name="poolPreparedStatements" value="true" />
               <property name="maxOpenPreparedStatements" value="20" />
-       </bean>-->
+       </beantest>-->
 </beans>

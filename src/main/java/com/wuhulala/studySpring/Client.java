@@ -68,30 +68,30 @@ public class Client {
 //        if (!CollectionUtils.isEmpty(this.beanPostProcessors)) {
         //1.这个集合中包括里面有一个CommonAnnotationBeanPostProcessor这执行了PreDestroy注解
 //        for (DestructionAwareBeanPostProcessor processor : this.beanPostProcessors) {
-//            processor.postProcessBeforeDestruction(this.bean, this.beanName);
+//            processor.postProcessBeforeDestruction(this.beantest, this.beanName);
 //        }
 //        }
 //       //2.这里是判断是否实现了DisposableBean接口
 //		if (this.invokeDisposableBean) {
 //        if (logger.isDebugEnabled()) {
-//            logger.debug("Invoking destroy() on bean with name '" + this.beanName + "'");
+//            logger.debug("Invoking destroy() on beantest with name '" + this.beanName + "'");
 //        }
 //        try {
 //            if (System.getSecurityManager() != null) {
 //                AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
 //                    @Override
 //                    public Object run() throws Exception {
-//                        ((DisposableBean) bean).destroy();
+//                        ((DisposableBean) beantest).destroy();
 //                        return null;
 //                    }
 //                }, acc);
 //            }
 //            else {
-//                ((DisposableBean) bean).destroy();
+//                ((DisposableBean) beantest).destroy();
 //            }
 //        }
 //        catch (Throwable ex) {
-//            String msg = "Invocation of destroy method failed on bean with name '" + this.beanName + "'";
+//            String msg = "Invocation of destroy method failed on beantest with name '" + this.beanName + "'";
 //            if (logger.isDebugEnabled()) {
 //                logger.warn(msg, ex);
 //            }
