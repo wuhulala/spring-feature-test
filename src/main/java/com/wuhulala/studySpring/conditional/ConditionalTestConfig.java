@@ -1,6 +1,7 @@
 package com.wuhulala.studySpring.conditional;
 
 import com.wuhulala.api.User;
+import com.wuhulala.studySpring.conditional.kafka.annotation.KafkaOnEnabled;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 public class ConditionalTestConfig {
 
     @Bean
-    @Conditional(KafkaEnableConditional.class)
+    @KafkaOnEnabled
     public User user(){
         return new User("aohui");
     }

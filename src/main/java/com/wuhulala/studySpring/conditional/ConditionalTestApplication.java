@@ -4,6 +4,7 @@ import com.wuhulala.api.User;
 import com.wuhulala.studySpring.Application;
 import com.wuhulala.studySpring.annotation.AoHuiAppAnnotation;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 /**
  * 功能说明: com.wuhulala.studySpring.conditional<br>
@@ -21,4 +22,5 @@ public class ConditionalTestApplication {
         User user = annotationConfigApplicationContext.getBean("user", User.class);
         System.out.println(user);
     }
+
 }
