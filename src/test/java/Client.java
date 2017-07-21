@@ -1,7 +1,7 @@
-import com.wuhulala.studySpring.Application;
-import com.wuhulala.studySpring.aop.AOPService;
-import com.wuhulala.studySpring.aop.AService;
-import com.wuhulala.studySpring.properties.Properties;
+import com.wuhulala.spring.Application;
+import com.wuhulala.spring.aop.AOPService;
+import com.wuhulala.spring.aop.AService;
+import com.wuhulala.spring.properties.Properties;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

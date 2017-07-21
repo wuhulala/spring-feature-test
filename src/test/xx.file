@@ -103,10 +103,10 @@
 09:53:12,382 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (1620) - Invoking afterPropertiesSet() on bean with name 'org.springframework.transaction.interceptor.TransactionInterceptor#0'
 09:53:12,383 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (484) - Finished creating instance of bean 'org.springframework.transaction.interceptor.TransactionInterceptor#0'
 09:53:12,393 DEBUG org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator (526) - Creating implicit proxy for bean 'AService' with 0 common interceptors and 1 specific interceptors
-09:53:12,402 DEBUG org.springframework.aop.framework.CglibAopProxy (159) - Creating CGLIB proxy: target source is SingletonTargetSource for target object [com.wuhulala.studySpring.aop.AService@20d525]
-09:53:12,548 DEBUG org.springframework.aop.framework.CglibAopProxy (833) - Unable to apply any optimisations to advised method: public void com.wuhulala.studySpring.aop.AService.b()
+09:53:12,402 DEBUG org.springframework.aop.framework.CglibAopProxy (159) - Creating CGLIB proxy: target source is SingletonTargetSource for target object [com.wuhulala.spring.aop.AService@20d525]
+09:53:12,548 DEBUG org.springframework.aop.framework.CglibAopProxy (833) - Unable to apply any optimisations to advised method: public void com.wuhulala.spring.aop.AService.b()
 09:53:12,549 DEBUG org.springframework.transaction.annotation.AnnotationTransactionAttributeSource (108) - Adding transactional method 'AService.a' with attribute: PROPAGATION_REQUIRED,ISOLATION_DEFAULT; ''
-09:53:12,550 DEBUG org.springframework.aop.framework.CglibAopProxy (833) - Unable to apply any optimisations to advised method: public void com.wuhulala.studySpring.aop.AService.a()
+09:53:12,550 DEBUG org.springframework.aop.framework.CglibAopProxy (833) - Unable to apply any optimisations to advised method: public void com.wuhulala.spring.aop.AService.a()
 09:53:12,550 DEBUG org.springframework.aop.framework.CglibAopProxy (797) - Found 'equals' method: public boolean java.lang.Object.equals(java.lang.Object)
 09:53:12,551 DEBUG org.springframework.aop.framework.CglibAopProxy (833) - Unable to apply any optimisations to advised method: public java.lang.String java.lang.Object.toString()
 09:53:12,552 DEBUG org.springframework.aop.framework.CglibAopProxy (802) - Found 'hashCode' method: public native int java.lang.Object.hashCode()
@@ -138,9 +138,9 @@
 09:53:12,604 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (221) - Creating shared instance of singleton bean 'client'
 09:53:12,605 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (448) - Creating instance of bean 'client'
 09:53:12,605 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'org.springframework.transaction.config.internalTransactionAdvisor'
-09:53:12,609 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (72) - Registered injected element on class [com.wuhulala.studySpring.aop.Client]: AutowiredFieldElement for private com.wuhulala.studySpring.aop.AService com.wuhulala.studySpring.aop.Client.aService
+09:53:12,609 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (72) - Registered injected element on class [com.wuhulala.spring.aop.Client]: AutowiredFieldElement for private com.wuhulala.spring.aop.AService com.wuhulala.spring.aop.Client.aService
 09:53:12,609 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (529) - Eagerly caching bean 'client' to allow for resolving potential circular references
-09:53:12,613 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (86) - Processing injected element of bean 'client': AutowiredFieldElement for private com.wuhulala.studySpring.aop.AService com.wuhulala.studySpring.aop.Client.aService
+09:53:12,613 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (86) - Processing injected element of bean 'client': AutowiredFieldElement for private com.wuhulala.spring.aop.AService com.wuhulala.spring.aop.Client.aService
 09:53:12,619 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'AService'
 09:53:12,620 DEBUG org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor (492) - Autowiring by type from bean name 'client' to bean named 'AService'
 09:53:12,621 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'org.springframework.transaction.config.internalTransactionAdvisor'
@@ -156,9 +156,9 @@
 09:53:12,631 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (221) - Creating shared instance of singleton bean 'helloProxy'
 09:53:12,632 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (448) - Creating instance of bean 'helloProxy'
 09:53:12,632 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'org.springframework.transaction.config.internalTransactionAdvisor'
-09:53:12,633 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (72) - Registered injected element on class [com.wuhulala.studySpring.HelloProxy]: AutowiredFieldElement for private com.wuhulala.studySpring.HelloImpl com.wuhulala.studySpring.HelloProxy.hello
+09:53:12,633 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (72) - Registered injected element on class [com.wuhulala.spring.HelloProxy]: AutowiredFieldElement for private com.wuhulala.spring.HelloImpl com.wuhulala.spring.HelloProxy.hello
 09:53:12,634 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (529) - Eagerly caching bean 'helloProxy' to allow for resolving potential circular references
-09:53:12,636 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (86) - Processing injected element of bean 'helloProxy': AutowiredFieldElement for private com.wuhulala.studySpring.HelloImpl com.wuhulala.studySpring.HelloProxy.hello
+09:53:12,636 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (86) - Processing injected element of bean 'helloProxy': AutowiredFieldElement for private com.wuhulala.spring.HelloImpl com.wuhulala.spring.HelloProxy.hello
 09:53:12,638 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'helloImpl'
 09:53:12,638 DEBUG org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor (492) - Autowiring by type from bean name 'helloProxy' to bean named 'helloImpl'
 09:53:12,639 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'org.springframework.transaction.config.internalTransactionAdvisor'
@@ -230,14 +230,14 @@
 09:53:14,507 DEBUG org.springframework.core.env.PropertySourcesPropertyResolver (103) - Could not find key 'spring.liveBeansView.mbeanDomain' in any property source. Returning [null]
 09:53:14,511 DEBUG org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate (118) - Storing ApplicationContext in cache under key [[MergedContextConfiguration@1794d431 testClass = Client, locations = '{classpath:spring.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]]
 09:53:14,511 DEBUG org.springframework.test.context.cache (247) - Spring test ApplicationContext cache statistics: [DefaultContextCache@5340477f size = 1, parentContextCount = 0, hitCount = 0, missCount = 1]
-09:53:14,514 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (86) - Processing injected element of bean 'Client': AutowiredFieldElement for private com.wuhulala.studySpring.aop.AService Client.aService
+09:53:14,514 DEBUG org.springframework.beans.factory.annotation.InjectionMetadata (86) - Processing injected element of bean 'Client': AutowiredFieldElement for private com.wuhulala.spring.aop.AService Client.aService
 09:53:14,515 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'AService'
 09:53:14,515 DEBUG org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor (492) - Autowiring by type from bean name 'Client' to bean named 'AService'
 09:53:14,516 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'org.springframework.transaction.config.internalTransactionAdvisor'
 09:53:14,516 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'org.springframework.transaction.config.internalTransactionAdvisor'
 09:53:14,521 DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener (106) - Before test method: context [DefaultTestContext@39c0f4a testClass = Client, testInstance = Client@146ba0ac, testMethod = test1@Client, testException = [null], mergedContextConfiguration = [MergedContextConfiguration@1794d431 testClass = Client, locations = '{classpath:spring.xml}', classes = '{}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', contextLoader = 'org.springframework.test.context.support.DelegatingSmartContextLoader', parent = [null]]], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null].
 09:53:14,529 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory (251) - Returning cached instance of singleton bean 'txManager'
-09:53:14,536 DEBUG org.springframework.jdbc.datasource.DataSourceTransactionManager (367) - Creating new transaction with name [com.wuhulala.studySpring.aop.AService.a]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT; ''
+09:53:14,536 DEBUG org.springframework.jdbc.datasource.DataSourceTransactionManager (367) - Creating new transaction with name [com.wuhulala.spring.aop.AService.a]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT; ''
 09:53:14,541 DEBUG org.springframework.jdbc.datasource.DataSourceTransactionManager (206) - Acquired Connection [com.mysql.jdbc.JDBC4Connection@6f36c2f0] for JDBC transaction
 09:53:14,547 DEBUG org.springframework.jdbc.datasource.DataSourceTransactionManager (223) - Switching JDBC Connection [com.mysql.jdbc.JDBC4Connection@6f36c2f0] to manual commit
 ---------------a start--------------------
