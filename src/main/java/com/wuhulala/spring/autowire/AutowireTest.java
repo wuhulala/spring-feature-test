@@ -3,8 +3,6 @@ package com.wuhulala.spring.autowire;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * 功能说明: com.wuhulala.spring.autowire<br>
  * 注意事项: <br>
@@ -13,14 +11,10 @@ import java.util.concurrent.TimeUnit;
  * 开发时间: 2017/7/21<br>
  */
 public class AutowireTest {
-    public static void main(String[] args) throws InterruptedException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-autowired-by-name.xml","classpath:spring-autowired-by-default.xml");
+    public static void main(String[] args){
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-autowired-by-*.xml");
         UserContainer userContainer = context.getBean(UserContainer.class);
         System.out.println(userContainer);
-        System.out.println(userContainer.getUser1().getName());
-        while (true){
-            TimeUnit.SECONDS.sleep(10);
-        }
     }
 
     //注入顺序 autowiredMode

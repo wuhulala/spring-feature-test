@@ -66,8 +66,8 @@ public class TestInitOrder implements InitializingBean, DisposableBean,BeanNameA
         TestInitOrder test = factory.getBean(TestInitOrder.class);
         System.out.println(test.name);
     }
-//    ----- PriorityOrdered 的 beanPostPostProcessor--------------------
-//    ----- Ordered 的 beanPostPostProcessor--------------------
+//    ----- PriorityOrdered 的 beanFactoryPostProcessor--------------------
+//    ----- Ordered 的 beanFactoryPostProcessor--------------------
 //    -------------------constructor------------------
 //  -----------------Aware 接口[因为执行这些注入的都是beanpostprocessor]---------------------
 //    -------------------PostConstruct -------------------
