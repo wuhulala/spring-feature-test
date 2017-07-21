@@ -14,12 +14,24 @@ import java.util.concurrent.TimeUnit;
  */
 public class AutowireTest {
     public static void main(String[] args) throws InterruptedException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-autowired-by-name.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-autowired-by-name.xml","classpath:spring-autowired-by-default.xml");
         UserContainer userContainer = context.getBean(UserContainer.class);
         System.out.println(userContainer);
-        System.out.println(userContainer.getUser().getName());
+        System.out.println(userContainer.getUser1().getName());
         while (true){
             TimeUnit.SECONDS.sleep(10);
         }
     }
+
+    //注入顺序 autowiredMode
+    //=================================
+    //   value   ||  含义
+    //    0      || 默认的，加载顺序为先找construct => byName => byType
+    //    1      || byName
+    //    2      || byType
+    //    3      || construct
+    //    4      || 如果class有构造函数，使用constructor，否则使用byType
+    //=================================
+    // 如果没有指定autowire的类型
+    // 它的
 }

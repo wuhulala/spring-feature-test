@@ -11,16 +11,17 @@ import org.springframework.stereotype.Component;
  * 开发人员: xueah20964<br>
  * 开发时间: 2017/7/21<br>
  */
-//@Component
+@Component
 public class UserContainer {
-    //@Autowired
-    private User user;
+    @Autowired
+    private User user1;
 
-    public User getUser() {
-        return user;
+
+    public User getUser1() {
+        return user1;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser1(User user1) {
+        this.user1 = user1;
     }
 }
