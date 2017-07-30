@@ -1,5 +1,7 @@
 package com.wuhulala.api;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * 功能说明: com.wuhulala.api<br>
  * 注意事项: <br>
@@ -8,6 +10,7 @@ package com.wuhulala.api;
  * 开发时间: 2017/7/18<br>
  */
 public class User {
+    @Value("${my.user.name}")
     private String name;
     private int age;
 
