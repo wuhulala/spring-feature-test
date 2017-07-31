@@ -1,6 +1,7 @@
 package com.wuhulala.api;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * 功能说明: com.wuhulala.api<br>
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
  * 开发人员: xueah20964<br>
  * 开发时间: 2017/7/18<br>
  */
+@Component
 public class User {
     @Value("${my.user.name}")
     private String name;

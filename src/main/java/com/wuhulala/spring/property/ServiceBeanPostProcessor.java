@@ -3,6 +3,7 @@ package com.wuhulala.spring.property;
 import com.wuhulala.api.User;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.*;
 import org.springframework.core.env.Environment;
@@ -16,21 +17,29 @@ import org.springframework.stereotype.Component;
  * 如果此beanPostProcessor依赖于其它的bean，会导致它自己不工作。
  * 被依赖的bean(需要经过BeanPostProcessor前置和后置处理的)会检查是否被所有的beanPostProcessor处理过了。所以会抛出"[被依赖的bean没有被所有beanPostProcessor的处理]"的警告
  * ；所以最好不要依赖其它的bean，通过aware接口拿到想要的
+ *
+ * Environment 自定义添加进入由
+ * <code>
+ * 		Map configMap = properties;
+ *      MutablePropertySources sources = ((ConfigurableEnvironment) (springContext.getEnvironment())).getPropertySources();
+ *       sources.addLast(new MapPropertySource(System.currentTimeMillis()+"", configMap));
+ * </code>
+ *
  * </p>
  */
 @Component
 public class ServiceBeanPostProcessor implements BeanPostProcessor, InitializingBean, ApplicationContextAware, EnvironmentAware {
 
-   // @Autowired
-    //private User user;
+    @Autowired
+    private User user;
 
     private Environment environment;
 
-//    public ServiceBeanPostProcessor(Environment environment, User user){
-//        this.user = user;
-//        this.environment = environment;
-//        //System.out.println("constructor " + this.user.getName());
-//    }
+    public ServiceBeanPostProcessor(Environment environment, User user){
+        this.user = user;
+        this.environment = environment;
+        //System.out.println("constructor " + this.user.getName());
+    }
 
 
     @Override
@@ -57,7 +66,7 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Initializing
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("serviceBeanPostProcessor is init ..." + environment.getProperty("my.user.name"));
+        System.out.println("serviceBeanPostProcessor is init ..." + environment.resolvePlaceholders("${my.user.name}"));
     }
 
     @Override

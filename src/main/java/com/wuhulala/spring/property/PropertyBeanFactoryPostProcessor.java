@@ -17,7 +17,7 @@ public class PropertyBeanFactoryPostProcessor implements BeanFactoryPostProcesso
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         System.out.println("====================ALL BEAN NAME LIST START========================[" + beanFactory.getBeanDefinitionCount()  + "]");
         for (String beanName : beanFactory.getBeanDefinitionNames()){
-            System.out.println(beanName);
+            System.out.println(beanName+ ":" + beanFactory.getMergedBeanDefinition(beanName));
         }
         System.out.println("====================ALL BEAN NAME LIST END========================");
         System.out.println("==================================================================");

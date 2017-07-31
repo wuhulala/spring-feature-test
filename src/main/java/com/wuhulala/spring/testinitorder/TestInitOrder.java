@@ -64,7 +64,7 @@ public class TestInitOrder implements InitializingBean, DisposableBean,BeanNameA
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         AutowireCapableBeanFactory factory = applicationContext.getAutowireCapableBeanFactory();
         TestInitOrder test = factory.getBean(TestInitOrder.class);
-        System.out.println(test.name);
+        System.out.println("ApplicationContext 设置时刻 ：this name is " + test.name);
     }
 //    ----- PriorityOrdered 的 beanFactoryPostProcessor--------------------
 //    ----- Ordered 的 beanFactoryPostProcessor--------------------
