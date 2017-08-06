@@ -3,6 +3,7 @@ package com.wuhulala.spring.annotation;
 import com.wuhulala.config.PropConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
@@ -22,5 +23,6 @@ import java.lang.annotation.Target;
 @Import(PropConfig.class)
 @ComponentScan
 @Configuration
+@EnableAspectJAutoProxy(exposeProxy = true) //为了能够拿到当前线程的aop上下文
 public @interface AoHuiAppAnnotation {
 }
