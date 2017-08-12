@@ -3,6 +3,7 @@ package com.wuhulala.spring.conditional;
 import com.wuhulala.api.User;
 import com.wuhulala.spring.annotation.AoHuiAppAnnotation;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 /**
  * 功能说明: com.wuhulala.spring.conditional<br>
@@ -21,4 +22,8 @@ public class ConditionalTestApplication {
         System.out.println(user);
     }
 
+    @Bean
+    public String newString(){
+        return new String("asd");
+    }
 }

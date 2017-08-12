@@ -30,16 +30,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServiceBeanPostProcessor implements BeanPostProcessor, InitializingBean, ApplicationContextAware, EnvironmentAware {
 
-    @Autowired
+   //@Autowired
     private User user;
 
     private Environment environment;
-
-    public ServiceBeanPostProcessor(Environment environment, User user){
-        this.user = user;
-        this.environment = environment;
-        //System.out.println("constructor " + this.user.getName());
-    }
 
 
     @Override

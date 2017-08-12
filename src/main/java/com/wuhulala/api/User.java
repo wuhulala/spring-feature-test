@@ -1,5 +1,6 @@
 package com.wuhulala.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,17 @@ public class User {
     @Value("${my.user.name}")
     private String name;
     private int age;
+
+    //@Autowired
+    private Address address;
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public User() {
     }

@@ -14,19 +14,16 @@ import org.springframework.core.env.MutablePropertySources;
  * description: 提前暴露properties
  */
 @AoHuiAppAnnotation
-@ComponentScan("com.wuhulala.api")
 public class PropertyApplication {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(PropertyApplication.class);
         context.start();
-        User user = context.getBean("user", User.class);
-        System.out.println(user.getName());
     }
 
-//    @Bean
-//    public User user(){
-//        System.out.println("===========================================create user=============================");
-//        return new User();
-//    }
+    @Bean
+    public User user(){
+        System.out.println("===========================================create user=============================");
+        return new User();
+    }
 }
