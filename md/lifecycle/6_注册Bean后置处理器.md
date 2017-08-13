@@ -1,0 +1,5 @@
+tip ： Bean后置处理器，只是在getBean调用的时候执行
+
+1. 注册BeanPostProcessorChecker时记录信息消息 即当一个bean不能被所有BeanPostProcessors处理。
+2. 注册顺序按照PriorityOrdered->Ordered->普通的->内部的，之前默认的那个CommonAnnotationBeanPostProcessor、AutowiredAnnotationBeanPostProcessor、RequireAnnotationBeanPostProcessor，
+3. 重新注册ApplicationListenerDetector这个后置处理器

@@ -32,5 +32,6 @@
  1.4 bean的类型
  1.5 bean的循环依赖
 2. context
+ spring整个生命周期
 3. aop
 4. mvc

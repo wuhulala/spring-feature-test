@@ -1,0 +1,2 @@
+1. 就是在refresh之后，做点事情，和之前postProcessorBeanFactory有异曲同工之妙。就是开了一个钩子
+2. 在web环境中，会初始化themeResouce
