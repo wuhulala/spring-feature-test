@@ -27,11 +27,38 @@
 
 1. bean
  1.1 bean定义
+ 
  1.2 FactoryBean
+ 
  1.3 bean的生命周期
+ 
  1.4 bean的类型
+ 
  1.5 bean的循环依赖
+ 
 2. context
- spring整个生命周期
+
+	2.1	prepareRefresh();
+
+	2.2	obtainFreshBeanFactory
+
+	2.3	prepareBeanFactory
+
+	2.4 postProcessBeanFactory
+
+	2.5 invokeBeanFactoryPostProcessors
+
+2.6 registerBeanPostProcessors
+
+2.7 initMessageSource
+
+2.8 onRefresh
+
+2.9 registerListeners
+
+2.10 finishBeanFactoryInitialization
+
+2.11 finishRefresh
+ 
 3. aop
 4. mvc
