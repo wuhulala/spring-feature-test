@@ -36,7 +36,7 @@
      
      1.5 bean的循环依赖
  
-2. context
+2. context[资料](https://wuhulala.github.io/spring-test-code/)
 
      2.1	prepareRefresh();
 
