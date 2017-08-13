@@ -1,6 +1,6 @@
 # spring生命周期
 
-## 1. [启动之前的准备](1_prepareRedresh)
+## 1. [启动之前的准备](1_prepareRefresh)
 ## 2. [获取beanFactory](2_获取beanFactory)
 ## 3. [准备BeanFactory](3_prepareBeanFactory)
 ## 4. [子类自定义处理BeanFactory](4_postProcessBeanFactory)
