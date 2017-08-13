@@ -9,6 +9,15 @@
     <context:property-placeholder location="classpath:config.properties"/>
     <bean id="user" class="com.wuhulala.api.User">
     </bean>
+    <bean id="noAwareBean" class="com.wuhulala.spring.xmlbeanfactory.NoAwareBean">
+        <property name="environmentAware" ref="environmentAwareBean"/>
+        <property name="beanNameAwareBean" ref="beanNameAwareBean"/>
+        <property name="applicationContextAwareBean" ref="applicationContextBean"/>
+    </bean>
+    <bean id="environmentAwareBean" class="com.wuhulala.spring.xmlbeanfactory.EnvironmentAwareBean" lazy-init="true"/>
+    <bean id="beanNameAwareBean" class="com.wuhulala.spring.xmlbeanfactory.BeanNameAwareBean"/>
+    <bean id="applicationContextBean" class="com.wuhulala.spring.xmlbeanfactory.ApplicationContextAwareBean"/>
+
 
     <bean class="org.springframework.jmx.export.MBeanExporter">
         <property name="beans">

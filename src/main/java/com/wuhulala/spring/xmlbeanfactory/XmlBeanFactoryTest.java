@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 public class XmlBeanFactoryTest {
     public static void main(String[] args) throws InterruptedException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:xml-bean-factory.xml");
-        //context.addApplicationListener();
-        context.start();
+        //context.getBeanFactory().ignoreDependencyInterface(ApplicationContextAware.class);
+        //context.start();
         while(true){
             TimeUnit.SECONDS.sleep(5);
             System.out.println("i am still alive.....");
