@@ -55,4 +55,13 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", address=" + address +
+                '}';
+    }
 }

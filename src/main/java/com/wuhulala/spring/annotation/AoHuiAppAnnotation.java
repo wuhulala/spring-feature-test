@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  * 组合注解
  * @ComponentScan 扫描包
  * @Configuration 配置类
- * @Import(PropConfig.class) 加载属性配置
+ * @link @Import(PropConfig.class) 加载属性配置
  * Created by xueah20964 on 2017/4/24.
  */
 @Target(ElementType.TYPE)

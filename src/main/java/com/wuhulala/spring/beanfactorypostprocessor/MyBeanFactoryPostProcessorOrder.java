@@ -1,5 +1,6 @@
-package com.wuhulala.spring.testinitorder;
+package com.wuhulala.spring.beanfactorypostprocessor;
 
+import com.wuhulala.api.Address;
 import com.wuhulala.api.User;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
@@ -11,17 +12,21 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestBeanFactoryPostProcessorOrder2 implements BeanFactoryPostProcessor,Ordered {
+public class MyBeanFactoryPostProcessorOrder implements BeanFactoryPostProcessor,Ordered {
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        System.out.println("我是Ordered 13.。。。。。beanPostPostProcessor start ...... 我只是定义下了bean");
         RootBeanDefinition rbd = new RootBeanDefinition();
         rbd.setTargetType(User.class);
         MutablePropertyValues values = new MutablePropertyValues();
         values.addPropertyValue("name", "wuhulala");
+        values.addPropertyValue("age", 12);
+        Address address = new Address();
+        address.setName("浙江省");
+        values.addPropertyValue("address", address);
+        rbd.setBeanClass(User.class);
         rbd.setPropertyValues(values);
         ((DefaultListableBeanFactory)beanFactory).registerBeanDefinition("aaa", rbd);
-
+        
     }
 
     @Override

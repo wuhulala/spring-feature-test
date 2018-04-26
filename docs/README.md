@@ -1,5 +1,6 @@
 # spring生命周期
 
+![Spring启动流程](../images/Spring启动流程.png)
 ## 1. [启动之前的准备](1_prepareRefresh)
 ## 2. [获取beanFactory](2_获取beanFactory)
 ## 3. [准备BeanFactory](3_prepareBeanFactory)
