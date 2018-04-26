@@ -6,15 +6,18 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MyBeanFactoryPostProcessorOrder implements BeanFactoryPostProcessor,Ordered {
+public class MyBeanFactoryPostProcessorOrder implements BeanDefinitionRegistryPostProcessor,Ordered {
+
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         RootBeanDefinition rbd = new RootBeanDefinition();
         rbd.setTargetType(User.class);
         MutablePropertyValues values = new MutablePropertyValues();
@@ -25,12 +28,16 @@ public class MyBeanFactoryPostProcessorOrder implements BeanFactoryPostProcessor
         values.addPropertyValue("address", address);
         rbd.setBeanClass(User.class);
         rbd.setPropertyValues(values);
-        ((DefaultListableBeanFactory)beanFactory).registerBeanDefinition("aaa", rbd);
-        
+        registry.registerBeanDefinition("aaa", rbd);
     }
 
     @Override
     public int getOrder() {
         return 13;
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+
     }
 }
