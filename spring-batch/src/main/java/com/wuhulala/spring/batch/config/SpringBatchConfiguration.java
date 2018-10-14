@@ -33,6 +33,9 @@ import java.text.SimpleDateFormat;
 
 /**
  * 功能
+ * // TODO https://docs.spring.io/spring-batch/3.0.x/reference/html/scalability.html 并行
+ * // TODO https://docs.spring.io/spring-batch/3.0.x/reference/html/repeat.html 重复
+ * // TODO https://docs.spring.io/spring-batch/3.0.x/reference/html/retry.html 重试
  *
  * @author xueah20964 2018/10/14 Create 1.0  <br>
  * @version 1.0
