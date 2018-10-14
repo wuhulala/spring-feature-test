@@ -12,6 +12,7 @@
         <module>spring-quartz</module>
         <module>spring-normal</module>
         <module>spring-batch</module>
+        <module>spring-test-framework</module>
     </modules>
     <!--  <parent>
           <groupId>org.springframework.boot</groupId>
