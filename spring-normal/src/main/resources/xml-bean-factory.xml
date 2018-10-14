@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <context:annotation-config/>
+    <context:component-scan base-package="com.wuhulala.spring.xmlbeanfactory"/>
+    <context:property-placeholder location="classpath:config.properties"/>
+    <bean id="user" class="com.wuhulala.api.User">
+    </bean>
+    <bean id="noAwareBean" class="com.wuhulala.spring.xmlbeanfactory.NoAwareBean">
+        <property name="environmentAware" ref="environmentAwareBean"/>
+        <property name="beanNameAwareBean" ref="beanNameAwareBean"/>
+        <property name="applicationContextAwareBean" ref="applicationContextBean"/>
+    </bean>
+    <bean id="environmentAwareBean" class="com.wuhulala.spring.xmlbeanfactory.EnvironmentAwareBean" lazy-init="true"/>
+    <bean id="beanNameAwareBean" class="com.wuhulala.spring.xmlbeanfactory.BeanNameAwareBean"/>
+    <bean id="applicationContextBean" class="com.wuhulala.spring.xmlbeanfactory.ApplicationContextAwareBean"/>
+
+
+    <bean class="org.springframework.jmx.export.MBeanExporter">
+        <property name="beans">
+            <util:map>
+                <entry key="bean:name=user" value-ref="user"/>
+            </util:map>
+        </property>
+
+    </bean>
+</beans>
