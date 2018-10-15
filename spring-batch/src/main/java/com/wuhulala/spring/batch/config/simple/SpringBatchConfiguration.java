@@ -1,4 +1,4 @@
-package com.wuhulala.spring.batch.config;
+package com.wuhulala.spring.batch.config.simple;
 
 import com.wuhulala.spring.batch.config.simple.SimpleItemProcessor;
 import com.wuhulala.spring.batch.config.simple.SimpleItemWriter;
@@ -40,8 +40,8 @@ import java.text.SimpleDateFormat;
  * @author xueah20964 2018/10/14 Create 1.0  <br>
  * @version 1.0
  */
-@Configuration
-@EnableBatchProcessing
+//@Configuration
+//@EnableBatchProcessing
 public class SpringBatchConfiguration {
 
     @Bean

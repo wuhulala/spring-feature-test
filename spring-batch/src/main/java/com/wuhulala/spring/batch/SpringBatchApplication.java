@@ -27,7 +27,7 @@ public class SpringBatchApplication {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringBatchApplication.class);
         context.start();
         JobLauncher launcher = context.getBean(JobLauncher.class);
-        Job importJob = (Job) context.getBean("importJob");
+        Job importJob = (Job) context.getBean("partitionJob");
         String path = "person1.csv";
         try {
             launcher.run(importJob, new JobParametersBuilder().addString("input.file.path", path).addLong("time",System.currentTimeMillis()).toJobParameters());
