@@ -10,6 +10,7 @@ import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.retry.support.RetryTemplate;
 
 /**
  * 功能
@@ -26,11 +27,14 @@ public class SpringBatchApplication {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringBatchApplication.class);
         context.start();
+
+        RetryTemplate retryTemplate = context.getBean(RetryTemplate.class);
+
         JobLauncher launcher = context.getBean(JobLauncher.class);
         Job importJob = (Job) context.getBean("partitionJob");
         String path = "person1.csv";
         try {
-            launcher.run(importJob, new JobParametersBuilder().addString("input.file.path", path).addLong("time",System.currentTimeMillis()).toJobParameters());
+            launcher.run(importJob, new JobParametersBuilder().addLong("time",System.currentTimeMillis()).toJobParameters());
         } catch (JobExecutionAlreadyRunningException e) {
             e.printStackTrace();
         } catch (JobRestartException e) {

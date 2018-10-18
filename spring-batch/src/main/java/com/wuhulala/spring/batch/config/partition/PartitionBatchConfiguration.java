@@ -108,6 +108,7 @@ public class PartitionBatchConfiguration {
                            PartitionHandler partitionHandler,
                            DataSource dataSource) {
         return stepBuilderFactory.get("masterStep")
+                // 配置一个PartitionStep
                 .partitioner(slaveStep.getName(), new FilePartitioner())
                 .step(slaveStep)
                 .partitionHandler(partitionHandler)
@@ -127,7 +128,7 @@ public class PartitionBatchConfiguration {
 
     @Bean
     @StepScope // 必须和实现类同时使用，即返回值必须是实现类
-    public FlatFileItemReader<Person> reader(@Value("#{jobParameters['input.file.path']}")String filePath) {
+    public FlatFileItemReader<Person> reader(@Value("#{stepExecutionContext['input.file.path']}")String filePath) {
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         //ItemReader<Person>
         FlatFileItemReader<Person> reader = new FlatFileItemReader<>();

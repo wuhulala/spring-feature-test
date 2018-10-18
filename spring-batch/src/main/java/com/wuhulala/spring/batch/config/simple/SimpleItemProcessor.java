@@ -17,7 +17,7 @@ public class SimpleItemProcessor implements ItemProcessor<Person, Person> {
 
     @Override
     public Person process(Person person) throws Exception {
-        person.setName(person.getName().toUpperCase());
+        person.setUpCaseName(person.getName().toUpperCase());
         person.setUpdateTime(new Date());
         return person;
     }
