@@ -42,14 +42,24 @@ public class KafkaPartitionHandler implements PartitionHandler {
     private String topic;
 
 
-    private long pollInterval = 10000;
+
 
     @Setter
     private JobExplorer jobExplorer;
 
+    @Setter
     private boolean pollRepositoryForResults = false;
 
-    private long timeout = 10000;
+    /**
+     * 循环查询数据库时间
+     */
+    @Setter
+    private long pollInterval = 1000;
+    /**
+     * 数据库判定结束类型 超时时间
+     */
+    @Setter
+    private long timeout = -1;
 
     private DataSource dataSource;
 
@@ -105,7 +115,7 @@ public class KafkaPartitionHandler implements PartitionHandler {
         // 如果成功
         if (result.size() == replies.size()) {
             return result;
-        }else {
+        } else {
             return null;
         }
     }
@@ -130,10 +140,11 @@ public class KafkaPartitionHandler implements PartitionHandler {
                     }
                 }
 
-                log.debug("Currently waiting on {} partitions to finish", split.size());
+                log.info("Currently waiting on {} partitions to finish", split.size());
 
 
                 if (result.size() == split.size()) {
+                    log.info("total partitions({}) are finished ", split.size());
                     return result;
                 } else {
                     return null;

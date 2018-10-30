@@ -188,7 +188,7 @@ public class PartitionBatchConfiguration {
         partitionHandler.setKafkaTemplate(kafkaTemplate);
         partitionHandler.setJobExplorer(jobExplorer);
         partitionHandler.setTopic("hello-batch");
-        //partitionHandler.afterPropertiesSet();
+        //partitionHandler.setPollRepositoryForResults(true);
         return partitionHandler;
     }
 
