@@ -10,7 +10,6 @@ import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.retry.support.RetryTemplate;
 
 /**
  * 功能
@@ -28,7 +27,9 @@ public class SpringBatchApplication {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringBatchApplication.class);
         context.start();
 
+/*
         RetryTemplate retryTemplate = context.getBean(RetryTemplate.class);
+*/
 
         JobLauncher launcher = context.getBean(JobLauncher.class);
         Job importJob = (Job) context.getBean("partitionJob");

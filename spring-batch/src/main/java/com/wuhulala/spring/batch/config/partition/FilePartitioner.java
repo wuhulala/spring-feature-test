@@ -27,11 +27,8 @@ public class FilePartitioner implements Partitioner {
         for (int i = 1; i <= gridSize; i++) {
             ExecutionContext value = new ExecutionContext();
             String fileName = "person" + i + ".csv";
-            System.out.println("Starting : Thread" + i);
-            System.out.println("file : " + fileName);
             value.put("input.file.path", fileName);
             result.put("partition" + i, value);
-
         }
 
         return result;

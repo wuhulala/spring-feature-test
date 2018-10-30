@@ -18,7 +18,7 @@ public class SimpleItemWriter implements ItemWriter<Person> {
     @Override
     public void write(List<? extends Person> list) throws Exception {
         for (Person each: list) {
-            log.debug("处理后结果: {}", each);
+            log.info("处理后结果: {}", each);
         }
     }
 }

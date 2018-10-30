@@ -1,23 +1,27 @@
 package com.wuhulala.spring.batch.config.partition;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.wuhulala.spring.batch.config.partition.kafka.KafkaPartitionHandler;
 import com.wuhulala.spring.batch.config.simple.SimpleItemProcessor;
 import com.wuhulala.spring.batch.config.simple.SimpleItemWriter;
 import com.wuhulala.spring.batch.listener.batch.MyJobListener;
 import com.wuhulala.spring.batch.model.Person;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecutionListener;
-import org.springframework.batch.core.Step;
+import org.springframework.batch.core.*;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.partition.PartitionHandler;
-import org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
+import org.springframework.batch.integration.partition.BeanFactoryStepLocator;
+import org.springframework.batch.integration.partition.StepExecutionRequest;
+import org.springframework.batch.integration.partition.StepExecutionRequestHandler;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -25,14 +29,16 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.batch.api.listener.JobListener;
 import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
 
@@ -49,6 +55,7 @@ import java.text.SimpleDateFormat;
 public class PartitionBatchConfiguration {
 
 
+    public static final int GRID_SIZE = 2;
     @Autowired
     JobBuilderFactory jobBuilderFactory;
 
@@ -94,8 +101,8 @@ public class PartitionBatchConfiguration {
 
     @Bean
     public Job partitionJob(JobBuilderFactory jobs,
-                   @Qualifier("masterStep") Step masterStep,
-                   @Qualifier("slaveStep") Step slaveStep) {
+                            @Qualifier("masterStep") Step masterStep,
+                            @Qualifier("slaveStep") Step slaveStep) {
         return jobs.get("partitionJob")
                 .start(masterStep)
                 .incrementer(new RunIdIncrementer())
@@ -164,12 +171,24 @@ public class PartitionBatchConfiguration {
     //=============================分区===========================================
     ///////////////////////////// 方法区 ////////////////////////////////////
 
+    //    @Bean
+//    public PartitionHandler partitionHandler(TaskExecutor taskExecutor, @Qualifier("slaveStep") Step slaveStep ){
+//        TaskExecutorPartitionHandler partitionHandler = new TaskExecutorPartitionHandler();
+//        partitionHandler.setGridSize(2);
+//        partitionHandler.setStep(slaveStep);
+//        partitionHandler.setTaskExecutor(taskExecutor);
+//        return partitionHandler;
+//    }
     @Bean
-    public PartitionHandler partitionHandler(TaskExecutor taskExecutor, @Qualifier("slaveStep") Step slaveStep ){
-        TaskExecutorPartitionHandler partitionHandler = new TaskExecutorPartitionHandler();
-        partitionHandler.setGridSize(2);
-        partitionHandler.setStep(slaveStep);
-        partitionHandler.setTaskExecutor(taskExecutor);
+    @Autowired
+    public PartitionHandler partitionHandler(KafkaTemplate kafkaTemplate) throws Exception {
+        KafkaPartitionHandler partitionHandler = new KafkaPartitionHandler();
+        partitionHandler.setStepName("slaveStep");
+        partitionHandler.setGridSize(GRID_SIZE);
+        partitionHandler.setKafkaTemplate(kafkaTemplate);
+        partitionHandler.setJobExplorer(jobExplorer);
+        partitionHandler.setTopic("hello-batch");
+        //partitionHandler.afterPropertiesSet();
         return partitionHandler;
     }
 
@@ -180,6 +199,38 @@ public class PartitionBatchConfiguration {
         executor.setThreadNamePrefix("partitionHandler");
         return executor;
     }
+
+    @Autowired
+    private ApplicationContext applicationContext;
+    @Autowired
+    public JobExplorer jobExplorer;
+
+    @Bean
+    public StepExecutionRequestHandler stepExecutionRequestHandler() {
+        StepExecutionRequestHandler stepExecutionRequestHandler = new StepExecutionRequestHandler();
+        BeanFactoryStepLocator stepLocator = new BeanFactoryStepLocator();
+        stepLocator.setBeanFactory(this.applicationContext);
+        stepExecutionRequestHandler.setStepLocator(stepLocator);
+        stepExecutionRequestHandler.setJobExplorer(this.jobExplorer);
+        return stepExecutionRequestHandler;
+    }
+
+    @Autowired
+    private StepExecutionRequestHandler stepExecutionRequestHandler;
+
+    @KafkaListener(topics = {"hello-batch"})
+    public String doHandle(String content){
+        System.out.println("slave接收到消息：:" + content);
+        JSONObject jsonObject = JSON.parseObject(content);
+
+        StepExecutionRequest request = new StepExecutionRequest(jsonObject.getString("stepName"),
+                jsonObject.getLong("jobExecutionId"),
+                jsonObject.getLong("stepExecutionId"));
+        StepExecution stepExecution = stepExecutionRequestHandler.handle(request);
+
+        return stepExecution.getStatus().equals(BatchStatus.COMPLETED) ? "success" : stepExecution.getStatus().toString();
+    }
+
 
 
 }
