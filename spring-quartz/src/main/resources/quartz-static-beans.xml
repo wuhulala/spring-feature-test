@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
+
+	<context:component-scan base-package="com.wuhulala.quartz"/>
+	<context:property-placeholder location="classpath:server.properties"/>
+
+	 
+	<bean id="myClusteredScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="autoStartup" value="${quartz.onoff}"/>
+		<!--<property name="dataSource">
+			<ref bean="timerDataSource"/>
+		</property>-->
+		<property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>
+		<!--applicationContextSchedulerContextKey： 是org.springframework.scheduling.quartz.SchedulerFactoryBean这个类中把spring上下 文以key/value的方式存放在了quartz的上下文中了，可以用applicationContextSchedulerContextKey所定义的key得到对应的spring上下文-->
+<!--
+
+		配置静态任务
+-->
+			<property name="triggers">
+				<list>
+					<ref bean="cronTrigger"/>
+<!--
+					 <ref bean="simpleTrigger"/>
+-->
+				</list>
+			</property>
+<!--
+		<property name="configLocation" value="classpath:quartz.properties"/>
+-->
+		<!--configLocation：用于指明quartz的配置文件的位置 -->
+	</bean>
+	 
+<!--
+	  配置静态任务的
+-->
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="exampleJobDetail"/>
+		<property name="cronExpression" value="0 0 0 * * ?"/>
+	</bean>
+
+	<bean id="exampleJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="exampleJob" ></property>
+		<property name="targetMethod" value="print"></property>
+		<property name="arguments" >
+			<list>
+				<value>wuhulala</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="exampleJob" class="com.wuhulala.quartz.examples.ExampleJob">
+	</bean>
+	 
+	<!--<bean name="exampleJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.wuhulala.quartz.examples.ExampleJob"/>
+&lt;!&ndash;
+		<property name="durability" value="true" />
+&ndash;&gt;
+		<property name="requestsRecovery" value="true" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="5"/>
+			</map>
+		</property>
+	</bean>-->
+
+</beans>
