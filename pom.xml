@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wuhulala</groupId>
-    <artifactId>studyspringcode</artifactId>
+    <artifactId>spring-feature-test</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
