@@ -122,6 +122,7 @@ protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
 		// 从缓存中获取
 		Set<Method> methods = this.initBinderCache.get(handlerType);
 		if (methods == null) {
+		    // 查找 当前 Controller 的 InitBinder， 优先级高
 			methods = MethodIntrospector.selectMethods(handlerType, INIT_BINDER_METHODS);
 			this.initBinderCache.put(handlerType, methods);
 		}
