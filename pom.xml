@@ -15,6 +15,7 @@
         <module>spring-test-framework</module>
         <module>spring-batch-advance</module>
         <module>spring-session-study</module>
+        <module>spring-web-feature</module>
     </modules>
     <!--  <parent>
           <groupId>org.springframework.boot</groupId>
