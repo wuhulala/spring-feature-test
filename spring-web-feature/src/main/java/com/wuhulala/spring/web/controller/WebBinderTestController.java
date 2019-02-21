@@ -22,7 +22,8 @@ import java.util.Date;
 public class WebBinderTestController {
 
     // 个性化 initBinder
-    @InitBinder
+    // value 表示只绑定表单的固定key
+    @InitBinder("date")
     protected void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         dateFormat.setLenient(false);
@@ -30,10 +31,10 @@ public class WebBinderTestController {
     }
 
 
-    // http://localhost:8080/?date=20180819
+    // http://localhost:8080/?date=20180819&date2=2018-09-19
     @RequestMapping("/")
     @ResponseBody
-    private String hello(Date date){
+    private String hello(Date date, Date date2){
         System.out.println(date);
         return "hello";
     }
