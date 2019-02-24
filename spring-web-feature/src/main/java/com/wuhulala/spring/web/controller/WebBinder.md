@@ -6,7 +6,7 @@ RequestMappingHandlerAdapter#afterPropertiesSet => RequestMappingHandlerAdapter#
     			return;
     		}
     
-            // 获取所有加了 @ControllerAdvice 注解的Controller
+            // 获取所有加了 @ControllerAdvice 注解的 Bean
     		List<ControllerAdviceBean> adviceBeans = ControllerAdviceBean.findAnnotatedBeans(getApplicationContext());
     		AnnotationAwareOrderComparator.sort(adviceBeans);
     
@@ -17,6 +17,7 @@ RequestMappingHandlerAdapter#afterPropertiesSet => RequestMappingHandlerAdapter#
     			if (beanType == null) {
     				throw new IllegalStateException("Unresolvable type for ControllerAdviceBean: " + adviceBean);
     			}
+    			// 获取所有ModelAtrribute注解
     			Set<Method> attrMethods = MethodIntrospector.selectMethods(beanType, MODEL_ATTRIBUTE_METHODS);
     			if (!attrMethods.isEmpty()) {
     				this.modelAttributeAdviceCache.put(adviceBean, attrMethods);
@@ -26,9 +27,11 @@ RequestMappingHandlerAdapter#afterPropertiesSet => RequestMappingHandlerAdapter#
     			if (!binderMethods.isEmpty()) {
     				this.initBinderAdviceCache.put(adviceBean, binderMethods);
     			}
+    			// TODO RequestBodyAdvice
     			if (RequestBodyAdvice.class.isAssignableFrom(beanType)) {
     				requestResponseBodyAdviceBeans.add(adviceBean);
     			}
+    			// TODO ResponseBodyAdvice
     			if (ResponseBodyAdvice.class.isAssignableFrom(beanType)) {
     				requestResponseBodyAdviceBeans.add(adviceBean);
     			}
