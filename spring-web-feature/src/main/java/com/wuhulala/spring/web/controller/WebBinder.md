@@ -66,6 +66,7 @@ protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
 
 		ServletWebRequest webRequest = new ServletWebRequest(request, response);
 		try {
+		    // handlerMethod 就是 RequestMapping注解的方法
 		    // 获取binderFactory
 			WebDataBinderFactory binderFactory = getDataBinderFactory(handlerMethod);
 			ModelFactory modelFactory = getModelFactory(handlerMethod, binderFactory);
@@ -82,18 +83,26 @@ protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
 
 			ModelAndViewContainer mavContainer = new ModelAndViewContainer();
 			mavContainer.addAllAttributes(RequestContextUtils.getInputFlashMap(request));
+			// 按照以下的顺序填充model
+			// 检索列为@SessionAttributes的“已知”会话属性。
+            // 执行ModelAttribute  
+            // 查找同样列为@SessionAttributes的@ModelAttribute方法参数，并确保它们出现在模型中，如果需要则引发异常
 			modelFactory.initModel(webRequest, mavContainer, invocableMethod);
+			// false
 			mavContainer.setIgnoreDefaultModelOnRedirect(this.ignoreDefaultModelOnRedirect);
 
+            // 创建一步的web请求
 			AsyncWebRequest asyncWebRequest = WebAsyncUtils.createAsyncWebRequest(request, response);
 			asyncWebRequest.setTimeout(this.asyncRequestTimeout);
 
+            // web请求管理器
 			WebAsyncManager asyncManager = WebAsyncUtils.getAsyncManager(request);
 			asyncManager.setTaskExecutor(this.taskExecutor);
 			asyncManager.setAsyncWebRequest(asyncWebRequest);
 			asyncManager.registerCallableInterceptors(this.callableInterceptors);
 			asyncManager.registerDeferredResultInterceptors(this.deferredResultInterceptors);
 
+            // 如果有并发结果
 			if (asyncManager.hasConcurrentResult()) {
 				Object result = asyncManager.getConcurrentResult();
 				mavContainer = (ModelAndViewContainer) asyncManager.getConcurrentResultContext()[0];
@@ -111,6 +120,7 @@ protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
 				return null;
 			}
 
+            // 执行
 			return getModelAndView(mavContainer, modelFactory, webRequest);
 		}
 		finally {
@@ -169,3 +179,10 @@ protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
     }
 
 ```
+
+
+// InitBinder，用于标识初始化org.springframework.web.bind.WebDataBinder的方法，可以有多个，会按照声明顺序执行。
+// 他可以认为在request的请求体和@RequestMapping对应方法参数绑定之前的一个钩子
+// 该方法将用于填充带注释的处理程序方法的命令和表单对象参数。
+// 这样的init-binder方法支持RequestMapping支持的所有参数，命令/表单对象和相应的验证结果对象除外。 
+// Init-binder方法不能有返回值; 它们通常被宣布为无效
