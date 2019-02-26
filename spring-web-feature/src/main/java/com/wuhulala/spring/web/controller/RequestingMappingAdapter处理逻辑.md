@@ -256,24 +256,37 @@ public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewC
 	}
 ```
 
+AbstractNamedValueMethodArgumentResolver#resolveArgument
 ```
 public final Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) throws Exception {
 
+        // 把parameter翻译成NameValueInfo 
+        // 如 @RequestParam(name = "a", required = true, defaultValue = "3") => NamedValueInfo{name="a",required=true,defaultValue="3"}
+        // 类似的还有@PathVariable @RequestHeader @RequestAttribute等
+        // 如果不写name的话，默认是对应的parameter的名称
+        // 1. 这个方法第一步由各个处理器创建这个封装的NameValueInfo，
+        // 2. 处理name 和 defaultValue,并放入缓存
 		NamedValueInfo namedValueInfo = getNamedValueInfo(parameter);
+		
+		// 获取实际的属性，因为有可能是Optional
 		MethodParameter nestedParameter = parameter.nestedIfOptional();
 
+        // 处理这个name属性，因为它可能是表达式或者占位符
 		Object resolvedName = resolveStringValue(namedValueInfo.name);
 		if (resolvedName == null) {
 			throw new IllegalArgumentException(
 					"Specified name must not resolve to null: [" + namedValueInfo.name + "]");
 		}
         
+        // 真实的解析逻辑，比如从@RequestParam => Request中获取值
 		Object arg = resolveName(resolvedName.toString(), nestedParameter, webRequest);
 		if (arg == null) {
+		    // 等于 默认值
 			if (namedValueInfo.defaultValue != null) {
 				arg = resolveStringValue(namedValueInfo.defaultValue);
 			}
+			// required = true
 			else if (namedValueInfo.required && !nestedParameter.isOptional()) {
 				handleMissingValue(namedValueInfo.name, nestedParameter, webRequest);
 			}
@@ -285,11 +298,11 @@ public final Object resolveArgument(MethodParameter parameter, @Nullable ModelAn
 
 		if (binderFactory != null) {
 		    // 创建Binder , 
-		    // 0. 创建一个WebDataBinder
-		    // 1. 在这里会执行InitBinder对应的方法
-		    // 2.
+		    // 0. 创建一个WebRequestDataBinder
+		    // 1. 在这里会执行@InitBinder对应的方法,所以@InitBinder的作用就是在数据绑定完成之后的一个钩子
 			WebDataBinder binder = binderFactory.createBinder(webRequest, null, namedValueInfo.name);
 			try {
+			    // 绑定并转换，一般是类型转换，比如 date类型 20170110 翻译成对应的 Date
 				arg = binder.convertIfNecessary(arg, parameter.getParameterType(), parameter);
 			}
 			catch (ConversionNotSupportedException ex) {
@@ -303,6 +316,7 @@ public final Object resolveArgument(MethodParameter parameter, @Nullable ModelAn
 			}
 		}
 
+        // 模板方法 供子类处理结果的的钩子
 		handleResolvedValue(arg, namedValueInfo.name, parameter, mavContainer, webRequest);
 
 		return arg;
