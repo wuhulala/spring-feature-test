@@ -1,0 +1,19 @@
+spring:
+  main:
+    banner-mode: console
+
+my:
+  secret: ${random.value}
+  number: ${random.int}
+  big-number: ${random.long}
+  uuid: ${random.uuid}
+  numberless-than-ten: ${random.int(10)}
+  number-in-range: ${random.int[1024,65536]}
+
+rest:
+  group:
+    com.wuhulala.app1: app1
+    com.wuhulala.app2: app2
+  version:
+    com.wuhulala.app1: v1
+    com.wuhulala.app2: v2
