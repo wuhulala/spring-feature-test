@@ -22,6 +22,7 @@
         <module>spring-boot-chapter7-websecurity</module>
         <module>spring-boot-chapter9-test</module>
         <module>spring-boot-chapter10-actuator</module>
+        <module>spring-boot-chapter10-springbootadmin</module>
         <module>spring-boot-chapter11-deploy</module>
     </modules>
 
