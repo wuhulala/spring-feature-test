@@ -13,6 +13,16 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-boot-chapter1</module>
+        <module>spring-boot-chapter2-sql</module>
+        <module>spring-boot-chapter3-nosql</module>
+        <module>spring-boot-chapter4-cache</module>
+        <module>spring-boot-chapter5-web</module>
+        <module>spring-boot-chapter6-websocket</module>
+        <module>spring-boot-chapter8-task</module>
+        <module>spring-boot-chapter7-websecurity</module>
+        <module>spring-boot-chapter9-test</module>
+        <module>spring-boot-chapter10-actuator</module>
+        <module>spring-boot-chapter11-deploy</module>
     </modules>
 
 
