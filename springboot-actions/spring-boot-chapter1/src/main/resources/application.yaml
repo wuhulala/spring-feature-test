@@ -1,6 +1,8 @@
 spring:
   main:
     banner-mode: console
+  messages:
+    basename: i18n.login, i18n.error  #支持逗号分隔
 
 my:
   secret: ${random.value}
