@@ -2,7 +2,6 @@ package com.wuhulala.spring.batch.config.partition;
 
 import com.wuhulala.spring.batch.config.partition.kafka.KafkaPartitionHandler;
 import com.wuhulala.spring.batch.config.partition.kafka.KafkaStepExecutionRequestHandlerAdapter;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.partition.PartitionHandler;
 import org.springframework.batch.integration.partition.BeanFactoryStepLocator;
@@ -22,7 +21,6 @@ import org.springframework.kafka.core.KafkaTemplate;
  * @since v1.0<br>
  */
 @Configuration
-@EnableBatchProcessing
 public class KafkaPartitionBatchConfiguration {
 
 

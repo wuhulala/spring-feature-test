@@ -19,7 +19,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @since v1.0<br>
  */
 //@Configuration
-//@EnableBatchProcessing
 public class LocalPartitionBatchConfiguration {
 
 

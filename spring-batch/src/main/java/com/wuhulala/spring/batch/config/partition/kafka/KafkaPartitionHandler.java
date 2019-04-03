@@ -7,6 +7,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.partition.PartitionHandler;
 import org.springframework.batch.core.partition.StepExecutionSplitter;
+import org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter;
 import org.springframework.batch.integration.partition.StepExecutionRequest;
 import org.springframework.batch.poller.DirectPoller;
 import org.springframework.batch.poller.Poller;
@@ -15,8 +16,17 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.sql.DataSource;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * 0_0 o^o
@@ -65,6 +75,15 @@ public class KafkaPartitionHandler implements PartitionHandler {
 
     ///////////////////////////// 方法区 ////////////////////////////////////
 
+    /**
+     *
+     * @param stepSplitter
+     * @param masterStepExecution
+     * @return
+     * @throws Exception
+     *
+     * @see SimpleStepExecutionSplitter#split
+     */
     @Override
     public Collection<StepExecution> handle(StepExecutionSplitter stepSplitter, StepExecution masterStepExecution) throws Exception {
         final Set<StepExecution> split = stepSplitter.split(masterStepExecution, gridSize);
