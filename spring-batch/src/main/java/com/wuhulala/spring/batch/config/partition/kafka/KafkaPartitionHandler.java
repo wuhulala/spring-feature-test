@@ -72,9 +72,7 @@ public class KafkaPartitionHandler implements PartitionHandler {
             return null;
         }
 
-        int count = 0;
-
-        final Map<StepExecutionRequest, ListenableFuture> resultMap = new HashMap<>(split.size());
+        final Map<StepExecutionRequest, ListenableFuture> futureMap = new HashMap<>(split.size());
         final Map<StepExecutionRequest, StepExecution> executionMap = new HashMap<>(split.size());
         for (StepExecution stepExecution : split) {
             StepExecutionRequest request = new StepExecutionRequest(
@@ -84,20 +82,21 @@ public class KafkaPartitionHandler implements PartitionHandler {
             String requestStr = JSON.toJSONString(request);
             ListenableFuture future = kafkaTemplate.send(topic, requestStr);
 
-            resultMap.put(request, future);
+            futureMap.put(request, future);
             executionMap.put(request, stepExecution);
         }
+
         if (!pollRepositoryForResults) {
-            return receiveReplies(masterStepExecution, resultMap, executionMap);
+            return receiveReplies(masterStepExecution, futureMap, executionMap);
         } else {
             return pollReplies(masterStepExecution, split);
         }
 
     }
 
-    private Collection<StepExecution> receiveReplies(StepExecution masterStepExecution, Map<StepExecutionRequest, ListenableFuture> replies, Map<StepExecutionRequest, StepExecution> executionMap) {
-        Collection<StepExecution> result = new ArrayList<>(replies.size());
-        for (Map.Entry<StepExecutionRequest, ListenableFuture> reply : replies.entrySet()) {
+    private Collection<StepExecution> receiveReplies(StepExecution masterStepExecution, Map<StepExecutionRequest, ListenableFuture> futureMap, Map<StepExecutionRequest, StepExecution> executionMap) {
+        Collection<StepExecution> result = new ArrayList<>(futureMap.size());
+        for (Map.Entry<StepExecutionRequest, ListenableFuture> reply : futureMap.entrySet()) {
             StepExecution se = executionMap.get(reply.getKey());
             try {
                 Object o = reply.getValue().get(timeout, TimeUnit.MILLISECONDS);
@@ -113,7 +112,7 @@ public class KafkaPartitionHandler implements PartitionHandler {
         }
 
         // 如果成功
-        if (result.size() == replies.size()) {
+        if (result.size() == futureMap.size()) {
             return result;
         } else {
             return null;
