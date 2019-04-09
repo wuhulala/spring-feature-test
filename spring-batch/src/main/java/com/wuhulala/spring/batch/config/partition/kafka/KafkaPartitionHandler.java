@@ -7,6 +7,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.partition.PartitionHandler;
 import org.springframework.batch.core.partition.StepExecutionSplitter;
+import org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter;
 import org.springframework.batch.integration.partition.StepExecutionRequest;
 import org.springframework.batch.poller.DirectPoller;
 import org.springframework.batch.poller.Poller;
@@ -15,8 +16,17 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.sql.DataSource;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * 0_0 o^o
@@ -65,6 +75,15 @@ public class KafkaPartitionHandler implements PartitionHandler {
 
     ///////////////////////////// 方法区 ////////////////////////////////////
 
+    /**
+     *
+     * @param stepSplitter
+     * @param masterStepExecution
+     * @return
+     * @throws Exception
+     *
+     * @see SimpleStepExecutionSplitter#split
+     */
     @Override
     public Collection<StepExecution> handle(StepExecutionSplitter stepSplitter, StepExecution masterStepExecution) throws Exception {
         final Set<StepExecution> split = stepSplitter.split(masterStepExecution, gridSize);
@@ -72,9 +91,7 @@ public class KafkaPartitionHandler implements PartitionHandler {
             return null;
         }
 
-        int count = 0;
-
-        final Map<StepExecutionRequest, ListenableFuture> resultMap = new HashMap<>(split.size());
+        final Map<StepExecutionRequest, ListenableFuture> futureMap = new HashMap<>(split.size());
         final Map<StepExecutionRequest, StepExecution> executionMap = new HashMap<>(split.size());
         for (StepExecution stepExecution : split) {
             StepExecutionRequest request = new StepExecutionRequest(
@@ -84,20 +101,21 @@ public class KafkaPartitionHandler implements PartitionHandler {
             String requestStr = JSON.toJSONString(request);
             ListenableFuture future = kafkaTemplate.send(topic, requestStr);
 
-            resultMap.put(request, future);
+            futureMap.put(request, future);
             executionMap.put(request, stepExecution);
         }
+
         if (!pollRepositoryForResults) {
-            return receiveReplies(masterStepExecution, resultMap, executionMap);
+            return receiveReplies(masterStepExecution, futureMap, executionMap);
         } else {
             return pollReplies(masterStepExecution, split);
         }
 
     }
 
-    private Collection<StepExecution> receiveReplies(StepExecution masterStepExecution, Map<StepExecutionRequest, ListenableFuture> replies, Map<StepExecutionRequest, StepExecution> executionMap) {
-        Collection<StepExecution> result = new ArrayList<>(replies.size());
-        for (Map.Entry<StepExecutionRequest, ListenableFuture> reply : replies.entrySet()) {
+    private Collection<StepExecution> receiveReplies(StepExecution masterStepExecution, Map<StepExecutionRequest, ListenableFuture> futureMap, Map<StepExecutionRequest, StepExecution> executionMap) {
+        Collection<StepExecution> result = new ArrayList<>(futureMap.size());
+        for (Map.Entry<StepExecutionRequest, ListenableFuture> reply : futureMap.entrySet()) {
             StepExecution se = executionMap.get(reply.getKey());
             try {
                 Object o = reply.getValue().get(timeout, TimeUnit.MILLISECONDS);
@@ -113,7 +131,7 @@ public class KafkaPartitionHandler implements PartitionHandler {
         }
 
         // 如果成功
-        if (result.size() == replies.size()) {
+        if (result.size() == futureMap.size()) {
             return result;
         } else {
             return null;
