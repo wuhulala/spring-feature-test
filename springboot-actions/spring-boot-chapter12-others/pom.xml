@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-boot-chapter12-mail</module>
+        <module>spring-boot-chapter12-validate</module>
     </modules>
 
 
