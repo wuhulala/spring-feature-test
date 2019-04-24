@@ -14,6 +14,7 @@
     <modules>
         <module>spring-boot-chapter12-mail</module>
         <module>spring-boot-chapter12-validate</module>
+        <module>spring-boot-chapter12-rxjava2</module>
     </modules>
 
 
