@@ -16,13 +16,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 	},
 	nameGenerator = MapperNameGenerator.class
 )
-public class Application implements CommandLineRunner {
+public class MybatisApplication implements CommandLineRunner {
 
 	@Autowired
 	private CountryMapper countryMapper;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(MybatisApplication.class, args);
 	}
 
 	@Override

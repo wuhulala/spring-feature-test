@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration >
+
+    <Properties>
+		<Property name="log.home">D:/logs/springboot/sql</Property>
+        <Property name="log.level">debug</Property>
+        <Property name="log.size">100 M</Property>
+        <Property name="log.intervalHour">6</Property>
+        <Property name="log.runFile">sql_run.log</Property>
+        <Property name="log.errorFile">sql_error.log</Property>
+        <property name="DEFAULT_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n" />
+        <property name="FILE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n" />
+    </Properties>
+
+    <!-- 第一层 默认所有日志过滤器 -->
+    <ThresholdFilter>
+        <level>${log.level}</level>
+    </ThresholdFilter>
+
+    <Appenders>
+        <!-- 控制台 appender -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${DEFAULT_PATTERN}">
+            </PatternLayout>
+        </Console>
+
+
+        <!-- runFile -->
+        <RollingRandomAccessFile
+                name="runFile"
+                fileName="${log.home}/${log.runFile}"
+                filePattern="${log.home}/$${date:yyyy-MM-dd}/run/${log.runFile}-%d{yyyy-MM-dd-HH}-%i.log.gz"
+        >
+            <ThresholdFilter>
+                <level>${log.level}</level>
+            </ThresholdFilter>
+            <PatternLayout>
+                <pattern>${FILE_PATTERN}</pattern>
+            </PatternLayout>
+            <Policies>
+                <!-- 日志超过6个小时生成一个新的日志，旧的归档 -->
+                <TimeBasedTriggeringPolicy interval="${log.intervalHour}" modulate="true"/>
+                <!-- 日志超过100M生成一个新的日志，旧的归档 -->
+                <SizeBasedTriggeringPolicy size="${log.size}"/>
+            </Policies>
+        </RollingRandomAccessFile >
+
+        <!-- errorFile-->
+        <RollingRandomAccessFile
+                name="errorFile"
+                fileName="${log.home}/${log.errorFile}"
+                filePattern="${log.home}/$${date:yyyy-MM-dd}/error/${log.runFile}-%d{yyyy-MM-dd-HH}-%i.log.gz"
+        >
+            <ThresholdFilter>
+                <level>ERROR</level>
+            </ThresholdFilter>
+            <PatternLayout>
+                <pattern>${FILE_PATTERN}</pattern>
+            </PatternLayout>
+            <Policies>
+                <!-- 日志超过6个小时生成一个新的日志，旧的归档 -->
+                <TimeBasedTriggeringPolicy interval="${log.intervalHour}" modulate="true"/>
+                <!-- 日志超过100M生成一个新的日志，旧的归档 -->
+                <SizeBasedTriggeringPolicy size="${log.size}"/>
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+         <Root level="debug">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="runFile"/>
+            <AppenderRef ref="errorFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
