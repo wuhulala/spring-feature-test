@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+					"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wuhulala.springboot.mybatis.mapper.UserMapper">
+	<cache/>
+	<!-- <cache-ref namespace="tk.mybatis.simple.mapper.RoleMapper"/> -->
+	<resultMap id="userMap" type="com.wuhulala.springboot.mybatis.model.SysUser">
+		<id property="id" column="id"/>
+		<result property="userName" column="user_name"/>
+		<result property="userPassword" column="user_password"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userInfo" column="user_info"/>
+		<result property="headImg" column="head_img" jdbcType="BLOB"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+
+	<!-- 
+	<resultMap id="userRoleListMap" extends="userMap" type="SysUser">
+		<id property="id" column="id"/>
+		<result property="userName" column="user_name"/>
+		<result property="userPassword" column="user_password"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userInfo" column="user_info"/>
+		<result property="headImg" column="head_img" jdbcType="BLOB"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		<collection property="roleList" columnPrefix="role_" javaType="tk.mybatis.springboot.model.SysRole">
+			<id property="id" column="id"/>
+			<result property="roleName" column="role_name"/>
+			<result property="enabled" column="enabled"/>
+			<result property="createBy" column="create_by"/>
+			<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+		</collection>
+	</resultMap>
+	 -->
+	 
+
+	 
+	<select id="selectById" resultMap="userMap">
+		select * from sys_user where id = #{id}
+	</select>
+	
+	<select id="selectAll" resultType="com.wuhulala.springboot.mybatis.model.SysUser">
+	    select id, 
+	    	user_name userName, 
+	        user_password userPassword,
+	        user_email userEmail,
+	        user_info userInfo,
+	        head_img headImg,
+	        create_time createTime
+	    from sys_user
+	</select>
+	
+
+	
+	<insert id="insert">
+		insert into sys_user(
+			user_name, user_password, user_email, 
+			user_info, head_img, create_time)
+		values(
+			#{userName}, #{userPassword}, #{userEmail}, 
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insert2" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user(
+			user_name, user_password, 
+			<if test="userEmail != null">
+				<if test="userEmail != ''">
+				user_email, 
+				</if>
+			</if>
+			user_info, head_img, create_time)
+		values(
+			#{userName}, #{userPassword}, 
+			<if test="userEmail != null">
+				<if test="userEmail != ''">
+				#{userEmail}, 
+				</if>
+			</if>
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insert3">
+		insert into sys_user(
+			user_name, user_password, user_email, 
+			user_info, head_img, create_time)
+		values(
+			#{userName}, #{userPassword}, #{userEmail}, 
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP})
+		<selectKey keyColumn="id" resultType="long" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- Oracle 的例子，查询多个列的时候需要 keyColumn -->
+	<insert id="insertOracle">
+		<selectKey keyColumn="id" resultType="long" keyProperty="id" order="BEFORE">
+			SELECT SEQ_USER.nextval from dual
+		</selectKey>
+		insert into sys_user(
+			id, user_name, user_password, user_email, 
+			user_info, head_img, create_time)
+		values(
+			#{id}, #{userName}, #{userPassword}, #{userEmail}, 
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP})
+	</insert>
+	
+	<update id="updateById">
+		update sys_user 
+		set user_name = #{userName},
+			user_password = #{userPassword},
+			user_email = #{userEmail},
+			user_info = #{userInfo},
+			head_img = #{headImg, jdbcType=BLOB},
+			create_time = #{createTime, jdbcType=TIMESTAMP}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteById">
+		delete from sys_user where id = #{id}
+	</delete>
+	
+	<select id="selectByUser" resultType="com.wuhulala.springboot.mybatis.model.SysUser">
+		<bind name="print" value="@tk.mybatis.util.StringUtil@print(_parameter)"/>
+	    select id, 
+	    	user_name userName, 
+	        user_password userPassword,
+	        user_email userEmail,
+	        user_info userInfo,
+	        head_img headImg,
+	        create_time createTime
+	    from sys_user
+	    <where>
+		    <if test="@tk.mybatis.util.StringUtil@isNotEmpty(userName)">
+			    and user_name like concat('%', #{userName}, '%')
+		    </if>
+		    <if test="userEmail != '' and userEmail != null">
+		    and user_email = #{userEmail}
+		    </if>
+	    </where>
+	</select>
+	
+	<update id="updateByIdSelective">
+	<bind name="print" value="@tk.mybatis.util.StringUtil@print(_parameter)"/>
+		update sys_user 
+		<set>
+			<if test="userName != null and userName != ''">
+			user_name = #{userName},
+			</if>
+			<if test="userPassword != null and userPassword != ''">
+			user_password = #{userPassword},
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+			user_email = #{userEmail},
+			</if>
+			<if test="userInfo != null and userInfo != ''">
+			user_info = #{userInfo},
+			</if>
+			<if test="headImg != null">
+			head_img = #{headImg, jdbcType=BLOB},
+			</if>
+			<if test="createTime != null">
+			create_time = #{createTime, jdbcType=TIMESTAMP},
+			</if>
+			id = #{id},
+		</set>
+		where id = #{id}
+	</update>	
+	
+	<select id="selectByIdOrUserName" resultType="com.wuhulala.springboot.mybatis.model.SysUser">
+	    select id, 
+	    	user_name userName, 
+	        user_password userPassword,
+	        user_email userEmail,
+	        user_info userInfo,
+	        head_img headImg,
+	        create_time createTime
+	    from sys_user
+	    where 1 = 1
+		<choose>
+			<when test="id != null">
+			and id = #{id}
+			</when>
+			<when test="userName != null and userName != ''">
+			and user_name = #{userName}
+			</when>
+			<otherwise>
+			limit 0
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="selectByIdList" resultType="com.wuhulala.springboot.mybatis.model.SysUser">
+	    select id, 
+	    	user_name userName, 
+	        user_password userPassword,
+	        user_email userEmail,
+	        user_info userInfo,
+	        head_img headImg,
+	        create_time createTime
+	    from sys_user
+    	where id in
+    	<foreach collection="list" open="(" close=")" separator="," item="id" index="i">
+    		#{id}
+    	</foreach>
+	</select>
+	
+	<insert id="insertList" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user(
+			user_name, user_password,user_email,
+			user_info, head_img, create_time)
+		values
+		<foreach collection="list" item="user" separator=",">
+			(
+			#{user.userName}, #{user.userPassword},#{user.userEmail},
+			#{user.userInfo}, #{user.headImg, jdbcType=BLOB}, #{user.createTime, jdbcType=TIMESTAMP})
+		</foreach>
+	</insert>
+	
+	<update id="updateByMap">
+		update sys_user 
+		set 
+		<foreach collection="_parameter" item="val" index="key" separator=",">
+			${key} = #{val}
+		</foreach>
+		where id = #{id}
+	</update>
+	
+	<select id="selectUserAndRoleById" resultType="com.wuhulala.springboot.mybatis.model.SysUser">
+		select 
+		   	u.id, 
+		   	u.user_name userName, 
+		    u.user_password userPassword,
+		    u.user_email userEmail,
+		    u.user_info userInfo,
+		    u.head_img headImg,
+		    u.create_time createTime,
+			r.id "role.id", 
+			r.role_name "role.roleName", 
+			r.enabled "role.enabled",
+			r.create_by "role.createBy",
+			r.create_time "role.createTime"
+		from sys_user u
+		inner join sys_user_role ur on u.id = ur.user_id
+		inner join sys_role r on ur.role_id = r.id
+		where u.id = #{id}
+	</select>
+
+	
+	<select id="selectUserById" statementType="CALLABLE" useCache="false">
+	    {call select_user_by_id(
+	    	#{id, mode=IN}, 
+	    	#{userName, mode=OUT, jdbcType=VARCHAR},
+	    	#{userPassword, mode=OUT, jdbcType=VARCHAR},
+	    	#{userEmail, mode=OUT, jdbcType=VARCHAR},
+	    	#{userInfo, mode=OUT, jdbcType=VARCHAR},
+	    	#{headImg, mode=OUT, jdbcType=BLOB, javaType=_byte[]},
+	    	#{createTime, mode=OUT, jdbcType=TIMESTAMP}
+	    )}
+	</select>
+	
+	<select id="selectUserPage" statementType="CALLABLE" useCache="false" resultMap="userMap">
+	    {call select_user_page(
+	    	#{userName, mode=IN},
+	    	#{offset, mode=IN},
+	    	#{limit, mode=IN},
+	    	#{total, mode=OUT, jdbcType=BIGINT}
+	    )}
+	</select>
+	
+	<insert id="insertUserAndRoles" statementType="CALLABLE">
+	    {call insert_user_and_roles(
+	    	#{user.id, mode=OUT, jdbcType=BIGINT}, 
+	    	#{user.userName, mode=IN},
+	    	#{user.userPassword, mode=IN},
+	    	#{user.userEmail, mode=IN},
+	    	#{user.userInfo, mode=IN},
+	    	#{user.headImg, mode=IN, jdbcType=BLOB},
+	    	#{user.createTime, mode=OUT, jdbcType=TIMESTAMP},
+	    	#{roleIds, mode=IN}
+	    )}
+	</insert>
+	
+	<delete id="deleteUserById" statementType="CALLABLE">
+	    {call delete_user_by_id(#{id, mode=IN})}
+	</delete>
+</mapper>
