@@ -39,7 +39,7 @@
 	<select id="selectById" resultMap="userMap">
 		select * from sys_user where id = #{id}
 	</select>
-	
+
 	<select id="selectAll" resultType="com.wuhulala.springboot.mybatis.model.SysUser">
 	    select id, 
 	    	user_name userName, 

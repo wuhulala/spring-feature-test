@@ -1,7 +1,7 @@
 package com.wuhulala.springboot.mybatis.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import com.wuhulala.springboot.mybatis.model.Country;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -13,4 +13,5 @@ public interface CountryMapper {
 	 * @return
 	 */
 	List<Country> selectAll();
+
 }
