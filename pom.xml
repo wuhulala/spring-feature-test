@@ -16,7 +16,9 @@
         <module>spring-batch-advance</module>
         <module>spring-session-study</module>
         <module>spring-web-feature</module>
+        <module>spring-extension-point</module>
         <module>springboot-actions</module>
+        <module>spring-couchbase</module>
     </modules>
     <!--  <parent>
           <groupId>org.springframework.boot</groupId>
