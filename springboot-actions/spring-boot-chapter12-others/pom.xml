@@ -9,10 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-boot-chapter7-websecurity</artifactId>
+    <artifactId>spring-boot-chapter12-others</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>oauth2-sample</module>
+        <module>spring-boot-chapter12-mail</module>
+        <module>spring-boot-chapter12-validate</module>
+        <module>spring-boot-chapter12-rxjava2</module>
     </modules>
 
 

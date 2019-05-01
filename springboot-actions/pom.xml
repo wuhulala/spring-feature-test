@@ -24,6 +24,7 @@
         <module>spring-boot-chapter10-actuator</module>
         <module>spring-boot-chapter10-springbootadmin</module>
         <module>spring-boot-chapter11-deploy</module>
+        <module>spring-boot-chapter12-others</module>
     </modules>
 
 
