@@ -20,7 +20,7 @@ public class MybatisNativeApplication {
 
     public static void main(String[] args) throws IOException {
 
-        DefaultSqlSessionFactory sqlSessionFactory = MybatisUtils.getDefaultSqlSessionFactory();
+        DefaultSqlSessionFactory sqlSessionFactory = MybatisUtils.getDefaultSqlSessionFactory(null);
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
             List<Country> countries = session.selectList("com.wuhulala.springboot.mybatis.mapper.CountryMapper.selectAll");

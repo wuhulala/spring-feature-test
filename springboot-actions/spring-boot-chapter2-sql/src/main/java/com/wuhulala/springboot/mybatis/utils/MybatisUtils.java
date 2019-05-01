@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.LocalCacheScope;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.apache.ibatis.transaction.TransactionFactory;
@@ -26,7 +27,7 @@ import java.io.IOException;
  */
 public class MybatisUtils {
 
-    public static DefaultSqlSessionFactory getDefaultSqlSessionFactory() throws IOException {
+    public static DefaultSqlSessionFactory getDefaultSqlSessionFactory(ConfigurationCallback configurationCallback) throws IOException {
         HikariConfig dsConfig = new HikariConfig();
         dsConfig.setJdbcUrl("jdbc:mysql://mysqlhost:3306/mybatis");
         dsConfig.setUsername("mybatis");
@@ -41,6 +42,12 @@ public class MybatisUtils {
         configuration.addMapper(CountryMapper.class);
         configuration.setCacheEnabled(false);
 
+
+        if (configurationCallback != null){
+            configurationCallback.process(configuration);
+        }
+
+
         DefaultSqlSessionFactory sqlSessionFactory = (DefaultSqlSessionFactory) new SqlSessionFactoryBuilder().build(configuration);
         PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
         Resource resource = resourcePatternResolver.getResource("classpath:mapper/CountryMapper.xml");
@@ -48,4 +55,5 @@ public class MybatisUtils {
         xmlMapperBuilder.parse();
         return sqlSessionFactory;
     }
+
 }

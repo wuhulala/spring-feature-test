@@ -21,7 +21,7 @@ public class MybatisThreadSafeTestApplication {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        DefaultSqlSessionFactory sqlSessionFactory = MybatisUtils.getDefaultSqlSessionFactory();
+        DefaultSqlSessionFactory sqlSessionFactory = MybatisUtils.getDefaultSqlSessionFactory(null);
 
         // 线程不安全的
         try (SqlSession session = sqlSessionFactory.openSession();) {
