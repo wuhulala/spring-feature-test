@@ -4,6 +4,6 @@
 	<select id="selectAll" resultType="com.wuhulala.springboot.mybatis.model.Country">
 		select id,countryname,countrycode from country
 	</select>
-	<cache />
+	<cache/>
 
 </mapper>

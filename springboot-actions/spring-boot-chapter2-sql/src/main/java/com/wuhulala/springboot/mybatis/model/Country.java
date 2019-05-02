@@ -1,6 +1,8 @@
 package com.wuhulala.springboot.mybatis.model;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable {
 	private Long id;
 	private String countryname;
 	private String countrycode;
