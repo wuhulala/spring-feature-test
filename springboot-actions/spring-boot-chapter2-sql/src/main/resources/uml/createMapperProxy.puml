@@ -1,0 +1,18 @@
+通常一个Xml映射文件，都会写一个Dao接口与之对应，请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗？
+Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法名 的保存和寻找策略。Mapper 接口的工作原理是JDK动态代理，
+Mybatis运行时会使用JDK动态代理为Mapper接口生成代理对象proxy，代理对象会拦截接口方法，转而执行MapperStatement所代表的sql，然后将sql执行结果返回。
+
+@startuml
+
+XxxService -> MapperFactoryBean: autowired getObject
+MapperFactoryBean -> SqlSessionTemplate: getMapper
+SqlSessionTemplate -> DefaultSqlSession: getMapper
+DefaultSqlSession -> Configuration: getMapper
+Configuration -> MapperRegistry: getMapper
+MapperRegistry -> MapperProxyFactory: call newInstance
+MapperProxyFactory -> MapperProxy : construct a new Proxy
+MapperProxyFactory -> MapperProxyFactory : call newInstance
+MapperProxyFactory -> java.lang.reflect.Proxy: newProxyInstance
+MapperProxyFactory --> MapperRegistry : MapperProxy
+
+@enduml
