@@ -1,0 +1,22 @@
+@startuml
+MapperProxy -> MapperProxy: invoke(Object proxy, Method method, Object[] args)
+MapperProxy -> MapperProxy: cachedMapperMethod
+MapperProxy --> MapperMethod: execute(sqlSession, args)
+MapperMethod --> DefaultSqlSession: call insert
+DefaultSqlSession --> DefaultSqlSession: call update
+DefaultSqlSession --> Configuration: call getMappedStatement(statement)
+Configuration --> DefaultSqlSession: return matched mappedStatement
+DefaultSqlSession --> BaseExecutor: update(ms, wrapCollection(parameter))
+BaseExecutor --> SimpleBaseExecutor: doUpdate(ms, parameter)
+SimpleBaseExecutor --> Configuration: newStatementHandler
+Configuration --> SimpleBaseExecutor: return StatementHandler
+SimpleBaseExecutor --> SimpleBaseExecutor: prepareStatement(handler, ms.getStatementLog())
+SimpleBaseExecutor --> SimpleStatementHandler: update(stmt);
+SimpleStatementHandler --> java.sql.Statement: do invoke execute
+java.sql.Statement --> SimpleStatementHandler: return update row numbers
+SimpleStatementHandler --> SimpleBaseExecutor: return update result
+SimpleBaseExecutor --> SimpleBaseExecutor: closeStatement(stmt)
+SimpleBaseExecutor --> DefaultSqlSession: return update row numbers;
+DefaultSqlSession --> MapperMethod: return insert row numbers;
+
+@enduml
