@@ -1,0 +1,15 @@
+dataSources:
+  db_master: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:33065/sharding-jdbc?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+  db_slave: !!com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:33066/sharding-jdbc?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+masterSlaveRule:
+  name: db_ms
+  masterDataSourceName: db_master
+  slaveDataSourceNames: [db_slave]
