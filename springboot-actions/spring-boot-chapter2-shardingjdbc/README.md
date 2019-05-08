@@ -43,6 +43,8 @@ http://localhost:8080/userinfo
 [{"id":1,"name":"wuhulala"},{"id":2,"name":"wuhulala2"},{"id":3,"name":"hlx"}]
 ```
 
+---
+
 # 分片测试
 
 ## 停止上一节的集群,关闭复制
