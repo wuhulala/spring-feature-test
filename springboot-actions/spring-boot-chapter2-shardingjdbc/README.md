@@ -121,8 +121,8 @@ shardingRule:
           algorithmExpression: userinfo${name.length() % 2}
 ```
 此分片规则就是，用户id根据奇数偶数判断在哪一个库里面，然后再根据名称的长度分布在哪个表里
-如：{id=1,name=wuhulala} 就是在 ds1库 的 userinfo0 表里面
-如：{id=2,name=hlx} 就是在 ds0库 的 userinfo1 表里面
+- 如：{id=1,name=wuhulala} 就是在 ds1库 的 userinfo0 表里面
+- 如：{id=2,name=hlx} 就是在 ds0库 的 userinfo1 表里面
 
 ```java
   /**
