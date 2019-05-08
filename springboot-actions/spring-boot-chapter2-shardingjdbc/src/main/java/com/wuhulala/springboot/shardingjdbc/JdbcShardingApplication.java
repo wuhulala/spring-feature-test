@@ -1,6 +1,6 @@
 package com.wuhulala.springboot.shardingjdbc;
 
-import io.shardingjdbc.core.api.MasterSlaveDataSourceFactory;
+import io.shardingjdbc.core.api.ShardingDataSourceFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -27,8 +27,17 @@ public class JdbcShardingApplication {
      * 配置读写分离数据源
      *
      */
+//    @Bean
+//    public DataSource dataSource() throws FileNotFoundException, SQLException, IOException {
+//        return MasterSlaveDataSourceFactory.createDataSource(ResourceUtils.getFile("classpath:sharding-jdbc.yml"));
+//    }
+
+    /**
+     * 配置分片数据源
+     *
+     */
     @Bean
     public DataSource dataSource() throws FileNotFoundException, SQLException, IOException {
-        return MasterSlaveDataSourceFactory.createDataSource(ResourceUtils.getFile("classpath:sharding-jdbc.yml"));
+        return ShardingDataSourceFactory.createDataSource(ResourceUtils.getFile("classpath:sharding-jdbc-shardingRule.yml"));
     }
 }

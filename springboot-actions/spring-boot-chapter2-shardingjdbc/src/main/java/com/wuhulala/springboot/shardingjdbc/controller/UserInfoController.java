@@ -2,6 +2,7 @@ package com.wuhulala.springboot.shardingjdbc.controller;
 
 import com.wuhulala.springboot.shardingjdbc.model.UserInfo;
 import com.wuhulala.springboot.shardingjdbc.repository.UserInfoRepository;
+import com.wuhulala.springboot.shardingjdbc.util.SnowflakeIdWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,7 @@ public class UserInfoController {
     @GetMapping("/userinfo/{name}")
     public UserInfo addUserInfo(@PathVariable String name) {
         UserInfo userInfo = new UserInfo();
+        userInfo.setId(SnowflakeIdWorker.getId());
         userInfo.setName(name);
         return userInfoRepository.save(userInfo);
     }

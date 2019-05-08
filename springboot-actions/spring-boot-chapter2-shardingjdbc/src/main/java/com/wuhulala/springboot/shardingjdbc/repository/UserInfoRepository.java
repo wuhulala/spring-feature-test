@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author wuhulala
  */
-public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
+public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
 
 }
