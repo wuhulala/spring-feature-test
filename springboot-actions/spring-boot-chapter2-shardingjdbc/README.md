@@ -139,3 +139,13 @@ shardingRule:
 http://localhost:8080/userinfo/wuhulala
 
 然后查看数据库，就可以看到了。
+
+# 读写分离&分片测试
+
+## 环境搭建
+
+先搭建如下的mysql集群
+
+![](doc/images/mysql-ms-sharding-cluster.png)
+
+## 
