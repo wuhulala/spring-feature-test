@@ -1,0 +1,18 @@
+@startuml
+ClassPathFileSystemWatcher -> ClassPathFileSystemWatcher:  init
+ClassPathFileSystemWatcher -> FileSystemWatcher:  addListener
+ClassPathFileSystemWatcher -> FileSystemWatcher:  start
+FileSystemWatcher -> FileSystemWatcher:  on file change => publishEvent
+FileSystemWatcher -> RestartConfiguration:  onApplicationEvent
+RestartConfiguration -> Restarter: restart
+Restarter -> LeakSafeThread: getLeakSafeThread
+Restarter -> Restarter: start
+Restarter -> Restarter: doStart
+Restarter -> RestartClassLoader: new RestartClassLoader(this.applicationClassLoader,urls, updatedFiles, this.logger)
+Restarter -> Restarter: relaunch
+Restarter -> RestartLauncher: new RestartLauncher(classLoader, this.mainClassName,this.args, this.exceptionHandler)
+Restarter -> RestartLauncher: (RestartLauncher extends Thread )launcher.start()
+RestartLauncher -> RestartLauncher: start0
+RestartLauncher -> RestartLauncher: run => reflect MainClass.main method
+
+@enduml
